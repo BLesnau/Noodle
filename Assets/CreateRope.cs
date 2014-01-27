@@ -32,7 +32,7 @@ public class CreateRope : MonoBehaviour
          var boxCollider = obj.GetComponent( typeof( BoxCollider2D ) ) as BoxCollider2D;
          if ( boxCollider != null )
          {
-            boxCollider.size = _segmentSize;
+            boxCollider.size = new Vector2( _segmentSize.x * transform.localScale.x, _segmentSize.y * transform.localScale.y );
          }
 
          var rigidBody = obj.GetComponent( typeof( Rigidbody2D ) ) as Rigidbody2D;
@@ -63,8 +63,8 @@ public class CreateRope : MonoBehaviour
             if ( hingeJointComp != null )
             {
                hingeJointComp.collideConnected = _connectedSegmentsCollide;
-               hingeJointComp.anchor = new Vector2( _segmentSize.x / 2.0f, 0 );
-               hingeJointComp.connectedAnchor = new Vector2( _segmentSize.x / -2.0f, 0 );
+               hingeJointComp.anchor = new Vector2( _segmentSize.x * transform.localScale.x / 2.0f, 0 );
+               hingeJointComp.connectedAnchor = new Vector2( _segmentSize.x * transform.localScale.x / -2.0f, 0 );
                hingeJointComp.useLimits = true;
                hingeJointComp.limits = new JointAngleLimits2D
                {
@@ -83,10 +83,11 @@ public class CreateRope : MonoBehaviour
             if ( springJoint != null )
             {
                springJoint.collideConnected = _connectedSegmentsCollide;
-               //springJoint.anchor = new Vector2( _segmentSize.x / 2.0f, 0 );
-               //springJoint.connectedAnchor = new Vector2( _segmentSize.x / -2.0f, 0 );
-               springJoint.anchor = new Vector2( 0, 0 );
-               springJoint.connectedAnchor = new Vector2( 0, 0 );
+               //springJoint.anchor = new Vector2( _segmentSize.x * transform.localScale.x / 2.0f, 0 );
+               //springJoint.connectedAnchor = new Vector2( _segmentSize.x * transform.localScale.x / -2.0f, 0 );
+               springJoint.distance = _segmentSize.x * transform.localScale.x;
+               //springJoint.anchor = new Vector2( 0, 0 );
+               //springJoint.connectedAnchor = new Vector2( 0, 0 );
                springJoint.dampingRatio = _springDampeningRatio;
                springJoint.frequency = _springFrequency;
             }
